@@ -1,0 +1,1041 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>aufs-util build problem</title>
+<meta name="robots" content="index, follow" />
+<meta http-equiv="Cache-Control" content="public" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Language" content="pl-PL,en-US" />
+<meta name="description" content="Sorry, this is bound to be an idiot error... I'm struggling to compile aufs-util for aufs3. I need to build it on a
+machine running a much older kernel, so basically the new kernel source
+(3.2.10) is in /usr/src/linux and I'm trying to build against that" />
+<meta name="keywords" content="aufs,usr,linux,kernel,src,include,build,aufs3,install,util,ver,headers,readme,git,type,source,new,error,problem,content,tree,form,179,need,path,file,cppflags,makefile,header,files,branch" />
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/themes/smoothness/jquery-ui.css" type="text/css" media="screen" />
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+
+
+<script type="text/javascript" src="http://i.digipedia.pl/aa/2/jqModal/jqModal.js"></script>
+<script type="text/javascript" src="http://i.digipedia.pl/aa/2/js/fu.js"></script>
+<script type="text/javascript" src="http://i.digipedia.pl/aa/2/js/jq.js"></script>
+<link href="http://i.digipedia.pl/aa/2/jqModal/jqModal.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://i.digipedia.pl/aa/3/css/main_v6.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://i.digipedia.pl/aa/3/favicon.ico" rel="shortcut icon" />
+<link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" title="Digipedia" />
+<link href="http://i.digipedia.pl/aa/2/css/2usenet.css" media="screen" rel="stylesheet" type="text/css" />
+<link rel="alternate" hreflang="en" href="http://en.digipedia.org/usenet/thread/18590/3777/" />
+<link rel="alternate" hreflang="pl" href="http://pl.digipedia.org/usenet/thread/18590/3777/" />
+
+
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+
+tnavf = function() {
+	var sfEls = document.getElementById("tnav").getElementsByTagName("LI");
+	for (var i=0; i<sfEls.length; i++) {
+		sfEls[i].onmouseover=function() {
+			this.className+=" tnavf";
+		}
+		sfEls[i].onmouseout=function() {
+			this.className=this.className.replace(new RegExp(" tnavf\\b"), "");
+		}
+	}
+}
+if (window.attachEvent) window.attachEvent("onload", tnavf);
+
+//--><!]]></script>
+
+
+</head>
+<body onload="javascript:checkMFrames();">
+
+
+<div id="wrapper">
+
+	<div id="breadcrumbs">
+		<p><a href="http://www.digipedia.org">digipedia.org</a> &#187; <a href="/usenet/">Usenet</a> &#187; <a>gmane.linux.file-systems.aufs.user</a></p>
+	</div>
+
+	<div id="header">
+		<div id="header-box">
+		
+			<div style="width:500px;float:right;margin-top:20px;margin-right:20px;">
+																						</div>
+
+
+		</div>
+
+		<div id="header_menu">
+
+<div id="lang_sel"><ul id="locale_switcher"><li><a href="http://en.digipedia.org/usenet/thread/18590/3777/"><img src="http://i.digipedia.pl/aa/3/i18n_en.png" alt="en" /></a></li><li><img src="http://i.digipedia.pl/aa/3/i18n_pl.png" alt="pl" /></li></ul></div><ul id="tnav"><li><a href="/">Index</a></li><li><a href="/usenet/">Usenet</a><ul><li><a href="/usenet/">Nowe wiadomości</a></li><li><a href="/usenet/groups/like/alt.*/" class="daddy">alt.*</a><ul><li><a href="/usenet/groups/like/alt.comp.*/">alt.comp.*</a></li><li><a href="/usenet/groups/like/alt.os.*/">alt.os.*</a></li><li><a href="/usenet/groups/like/alt.pl.*/">alt.pl.*</a></li></ul></li><li><a href="#" class="daddy">comp.*</a><ul><li><a href="/usenet/groups/like/comp.databases.*/">comp.databases.*</a></li><li><a href="/usenet/groups/like/comp.graphics.*/">comp.graphics.*</a></li><li><a href="/usenet/groups/like/comp.lang.*/">comp.lang.*</a></li><li><a href="/usenet/groups/like/comp.os.*/">comp.os.*</a></li><li><a href="/usenet/groups/like/comp.security.*/">comp.security.*</a></li><li><a href="/usenet/groups/like/comp.sys.*/">comp.sys.*</a></li><li><a href="/usenet/groups/like/comp.unix.*/">comp.unix.*</a></li><li><a href="/usenet/groups/like/comp.windows.*/">comp.windows.*</a></li></ul></li><li><a href="/usenet/groups/like/cz.*/">cz.*</a><li><a href="/usenet/groups/like/eagle.*/">eagle.*</a><li><a href="/usenet/groups/like/gnu.*/">gnu.*</a><li><a href="/usenet/groups/like/linux.*/">linux.*</a><li><a href="/usenet/groups/like/php.*/">php.*</a><li><a href="/usenet/groups/like/pl.*/">pl.*</a><li><a href="/usenet/groups/like/sci.*/">sci.*</a></li></ul></li><li><a href="/calc/">Kalkulatory</a><ul><li><a href="#" class="daddy">Cybersquatting</a><ul><li><a href="#">Typosquatting generator</a></li><li><a href="/calc/bitsquatting/">Bitsquatting generator</a></li></ul></li><li><a href="/calc/isbn2isbn13/">ISBN -> ISBN13</a></li><li><a href="/calc/nip/">NIP</a></li><li><a href="/calc/pesel/">PESEL</a></li><li><a href="/calc/nrb/">NRB</a></li><li><a href="/calc/iban/">IBAN</a></li><li><a href="/calc/isbn/">ISBN</a></li><li><a href="/calc/isbn13/">ISBN13</a></li><li><a href="/calc/do/">DO - Dowód osobisty</a></li></ul></li><li><a href="#">bazy wiedzy</a><ul><li><a href="/pna/">PNA (kody pocztowe)</a></li><li><a href="/def/">Słownik</a></li></ul></li><li><a href="#">narzędzia sieciowe</a><ul><li><a href="/ip/">Lokalizacja IP</a></li><li><a href="/mac/">Adres MAC</a></li></ul></li><li><a href="#">dokumantacje</a><ul><li><a href="/man/">Podręcznik Linuksa</a></li><li><a href="/php/manual/view/">PHP</a></li><li><a href="/pgsql/9.2/index.html">PgSQL</a></li><li><a href="/rfc/">RFC</a></li></ul></li><li><a href="/b/list/news/1/">Księgarnia</a></li><li><a href="http://forum.digipedia.pl/">Forum</a></li></ul><!--<ul><li><a  href="/">Indeks</a></li><li><a class="tmenu_sel" href="/usenet/">Usenet</a></li><li><a  href="/calc/">Kalkulatory</a></li><li><a  href="/pna/">PNA</a></li><li><a  href="/ip/">Lokalizacja IP</a></li><li><a  href="/mac/">Adres MAC</a></li><li><a  href="/def/">Słownik</a></li><li><a  href="/b/list/news/1/">Księgarnia</a></li><li><a  href="/man/">Podręcznik Linuksa</a></li><li><a  href="/php/manual/view/">PHP</a></li><li><a  href="/pgsql/9.2/index.html">PgSQL</a></li><li><a  href="/rfc/">RFC</a></li><li><a href="http://forum.digipedia.pl/">Forum</a></li></ul></div><br style="clear: both" />--><!--<table class="t-tab" cellspacing="0" cellpadding="0" border="0"><tr><td class="t-tab-start"><ul id="locale_switcher"><li><a href="http://en.digipedia.org/usenet/thread/18590/3777/"><img src="http://i.digipedia.pl/aa/3/i18n_en.png" alt="en" /></a></li><li><img src="http://i.digipedia.pl/aa/3/i18n_pl.png" alt="pl" /></li></ul></td><td class="layout01 t-tab-first-off"><a href="/">index</a></td><td class="layout01 t-tab-off"><a href="http://forum.digipedia.pl/">Forum</a></td><td class="layout01 t-tab-on"><a href="/usenet/">Usenet</a></td><td class="layout01 t-tab-off"><a href="/calc/">Kalkulatory</td><td class="layout01 t-tab-off"><a href="/pna/">PNA</a></td><td class="layout01 t-tab-off"><a href="/ip/">Lokalizacja IP</a></td><td class="layout01 t-tab-off"><a href="/mac/">Adres MAC</a></td><td class="layout01 t-tab-off"><a href="/def/">Słownik</a></td><td class="layout01 t-tab-off"><a href="/b/list/news/1/">Księgarnia</a></td><td class="layout01 t-tab-off"><a href="/man/">Podręcznik Linuksa</a></td><td class="layout01 t-tab-off"><a href="/php/manual/view/">PHP</a></td><td class="layout01 t-tab-off"><a href="/pgsql/9.2/index.html">PgSQL</a></td><td class="layout01 t-tab-off"><a href="/rfc/">RFC</a></td><td class="t-tab-end">&nbsp;</td></tr></table>--></div>
+
+	</div>
+
+
+
+
+	<div id="middle">
+
+		
+
+
+		<div id="left_menu">
+			
+
+
+
+
+
+
+		
+	<ul class="lmenu0">
+		<!--<li><a href="/article/view/id/9/">Informacje</a></li>-->
+		<li><a href="/usenet/">Nowe tematy</a>
+
+				</li>
+
+
+							<li><a href="/usenet/groups/*/">Dostępne grupy</a>
+			<ul class="lmenu1">
+		
+		<li><span title="alt.*"><a href="/usenet/groups/like/alt.*/">alt.*</a></span></li>
+
+					
+		<li><span title="comp.*"><a href="/usenet/groups/like/comp.*/">comp.*</a></span></li>
+
+					
+		<li><span title="cz.*"><a href="/usenet/groups/like/cz.*/">cz.*</a></span></li>
+
+					
+		<li><span title="eagle.*"><a href="/usenet/groups/like/eagle.*/">eagle.*</a></span></li>
+
+					
+		<li><span title="gmane.*"><a href="/usenet/groups/like/gmane.*/">gmane.*</a></span></li>
+
+					
+		<li><span title="gnu.*"><a href="/usenet/groups/like/gnu.*/">gnu.*</a></span></li>
+
+					
+		<li><span title="linux.*"><a href="/usenet/groups/like/linux.*/">linux.*</a></span></li>
+
+					
+		<li><span title="php.*"><a href="/usenet/groups/like/php.*/">php.*</a></span></li>
+
+					
+		<li><span title="pl.*"><a href="/usenet/groups/like/pl.*/">pl.*</a></span></li>
+
+					
+		<li><span title="sci.*"><a href="/usenet/groups/like/sci.*/">sci.*</a></span></li>
+
+					</ul>
+			</li>
+			
+
+							<li><a>Tagi</a>
+			<ul class="lmenu1">
+		
+		<li><span title="alt"><a href="/usenet/groups/like/*alt*">alt</a></span></li>
+
+					
+		<li><span title="announce"><a href="/usenet/groups/like/*announce*">announce</a></span></li>
+
+					
+		<li><span title="apache"><a href="/usenet/groups/like/*apache*">apache</a></span></li>
+
+					
+		<li><span title="apps"><a href="/usenet/groups/like/*apps*">apps</a></span></li>
+
+					
+		<li><span title="audio"><a href="/usenet/groups/like/*audio*">audio</a></span></li>
+
+					
+		<li><span title="bugs"><a href="/usenet/groups/like/*bugs*">bugs</a></span></li>
+
+					
+		<li><span title="cms"><a href="/usenet/groups/like/*cms*">cms</a></span></li>
+
+					
+		<li><span title="comp"><a href="/usenet/groups/like/*comp*">comp</a></span></li>
+
+					
+		<li><span title="cvs"><a href="/usenet/groups/like/*cvs*">cvs</a></span></li>
+
+					
+		<li><span title="db"><a href="/usenet/groups/like/*db*">db</a></span></li>
+
+					
+		<li><span title="debian"><a href="/usenet/groups/like/*debian*">debian</a></span></li>
+
+					
+		<li><span title="devel"><a href="/usenet/groups/like/*devel*">devel</a></span></li>
+
+					
+		<li><span title="distributions"><a href="/usenet/groups/like/*distributions*">distributions</a></span></li>
+
+					
+		<li><span title="documentation"><a href="/usenet/groups/like/*documentation*">documentation</a></span></li>
+
+					
+		<li><span title="drivers"><a href="/usenet/groups/like/*drivers*">drivers</a></span></li>
+
+					
+		<li><span title="eclipse"><a href="/usenet/groups/like/*eclipse*">eclipse</a></span></li>
+
+					
+		<li><span title="embedded"><a href="/usenet/groups/like/*embedded*">embedded</a></span></li>
+
+					
+		<li><span title="emulators"><a href="/usenet/groups/like/*emulators*">emulators</a></span></li>
+
+					
+		<li><span title="encryption"><a href="/usenet/groups/like/*encryption*">encryption</a></span></li>
+
+					
+		<li><span title="fedora"><a href="/usenet/groups/like/*fedora*">fedora</a></span></li>
+
+					
+		<li><span title="file-systems"><a href="/usenet/groups/like/*file-systems*">file-systems</a></span></li>
+
+					
+		<li><span title="french"><a href="/usenet/groups/like/*french*">french</a></span></li>
+
+					
+		<li><span title="games"><a href="/usenet/groups/like/*games*">games</a></span></li>
+
+					
+		<li><span title="general"><a href="/usenet/groups/like/*general*">general</a></span></li>
+
+					
+		<li><span title="gentoo"><a href="/usenet/groups/like/*gentoo*">gentoo</a></span></li>
+
+					
+		<li><span title="german"><a href="/usenet/groups/like/*german*">german</a></span></li>
+
+					
+		<li><span title="gis"><a href="/usenet/groups/like/*gis*">gis</a></span></li>
+
+					
+		<li><span title="gnome"><a href="/usenet/groups/like/*gnome*">gnome</a></span></li>
+
+					
+		<li><span title="gnu"><a href="/usenet/groups/like/*gnu*">gnu</a></span></li>
+
+					
+		<li><span title="graphics"><a href="/usenet/groups/like/*graphics*">graphics</a></span></li>
+
+					
+		<li><span title="handhelds"><a href="/usenet/groups/like/*handhelds*">handhelds</a></span></li>
+
+					
+		<li><span title="hardware"><a href="/usenet/groups/like/*hardware*">hardware</a></span></li>
+
+					
+		<li><span title="haskell"><a href="/usenet/groups/like/*haskell*">haskell</a></span></li>
+
+					
+		<li><span title="ide"><a href="/usenet/groups/like/*ide*">ide</a></span></li>
+
+					
+		<li><span title="internationalization"><a href="/usenet/groups/like/*internationalization*">internationalization</a></span></li>
+
+					
+		<li><span title="jakarta"><a href="/usenet/groups/like/*jakarta*">jakarta</a></span></li>
+
+					
+		<li><span title="java"><a href="/usenet/groups/like/*java*">java</a></span></li>
+
+					
+		<li><span title="kde"><a href="/usenet/groups/like/*kde*">kde</a></span></li>
+
+					
+		<li><span title="kernel"><a href="/usenet/groups/like/*kernel*">kernel</a></span></li>
+
+					
+		<li><span title="lang"><a href="/usenet/groups/like/*lang*">lang</a></span></li>
+
+					
+		<li><span title="lib"><a href="/usenet/groups/like/*lib*">lib</a></span></li>
+
+					
+		<li><span title="linux"><a href="/usenet/groups/like/*linux*">linux</a></span></li>
+
+					
+		<li><span title="mac"><a href="/usenet/groups/like/*mac*">mac</a></span></li>
+
+					
+		<li><span title="mathematics"><a href="/usenet/groups/like/*mathematics*">mathematics</a></span></li>
+
+					
+		<li><span title="misc"><a href="/usenet/groups/like/*misc*">misc</a></span></li>
+
+					
+		<li><span title="modules"><a href="/usenet/groups/like/*modules*">modules</a></span></li>
+
+					
+		<li><span title="mozilla"><a href="/usenet/groups/like/*mozilla*">mozilla</a></span></li>
+
+					
+		<li><span title="multimedia"><a href="/usenet/groups/like/*multimedia*">multimedia</a></span></li>
+
+					
+		<li><span title="openoffice"><a href="/usenet/groups/like/*openoffice*">openoffice</a></span></li>
+
+					
+		<li><span title="openstreetmap"><a href="/usenet/groups/like/*openstreetmap*">openstreetmap</a></span></li>
+
+					
+		<li><span title="os"><a href="/usenet/groups/like/*os*">os</a></span></li>
+
+					
+		<li><span title="perl"><a href="/usenet/groups/like/*perl*">perl</a></span></li>
+
+					
+		<li><span title="php"><a href="/usenet/groups/like/*php*">php</a></span></li>
+
+					
+		<li><span title="pl"><a href="/usenet/groups/like/*pl*">pl</a></span></li>
+
+					
+		<li><span title="plone"><a href="/usenet/groups/like/*plone*">plone</a></span></li>
+
+					
+		<li><span title="ports"><a href="/usenet/groups/like/*ports*">ports</a></span></li>
+
+					
+		<li><span title="programming"><a href="/usenet/groups/like/*programming*">programming</a></span></li>
+
+					
+		<li><span title="python"><a href="/usenet/groups/like/*python*">python</a></span></li>
+
+					
+		<li><span title="redhat"><a href="/usenet/groups/like/*redhat*">redhat</a></span></li>
+
+					
+		<li><span title="region"><a href="/usenet/groups/like/*region*">region</a></span></li>
+
+					
+		<li><span title="ruby"><a href="/usenet/groups/like/*ruby*">ruby</a></span></li>
+
+					
+		<li><span title="scm"><a href="/usenet/groups/like/*scm*">scm</a></span></li>
+
+					
+		<li><span title="security"><a href="/usenet/groups/like/*security*">security</a></span></li>
+
+					
+		<li><span title="suse"><a href="/usenet/groups/like/*suse*">suse</a></span></li>
+
+					
+		<li><span title="sys"><a href="/usenet/groups/like/*sys*">sys</a></span></li>
+
+					
+		<li><span title="sysutils"><a href="/usenet/groups/like/*sysutils*">sysutils</a></span></li>
+
+					
+		<li><span title="telephony"><a href="/usenet/groups/like/*telephony*">telephony</a></span></li>
+
+					
+		<li><span title="tex"><a href="/usenet/groups/like/*tex*">tex</a></span></li>
+
+					
+		<li><span title="tools"><a href="/usenet/groups/like/*tools*">tools</a></span></li>
+
+					
+		<li><span title="ubuntu"><a href="/usenet/groups/like/*ubuntu*">ubuntu</a></span></li>
+
+					
+		<li><span title="user"><a href="/usenet/groups/like/*user*">user</a></span></li>
+
+					
+		<li><span title="version-control"><a href="/usenet/groups/like/*version-control*">version-control</a></span></li>
+
+					
+		<li><span title="video"><a href="/usenet/groups/like/*video*">video</a></span></li>
+
+					
+		<li><span title="web"><a href="/usenet/groups/like/*web*">web</a></span></li>
+
+					
+		<li><span title="windows"><a href="/usenet/groups/like/*windows*">windows</a></span></li>
+
+					
+		<li><span title="zope"><a href="/usenet/groups/like/*zope*">zope</a></span></li>
+
+					</ul>
+			</li>
+			</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="margin: 18px;">
+	
+
+			
+<div class="book_icon">
+			<p class="drop_percent">30% TANIEJ!</p>
+		<a href="/b/d/isbn/9788324648221/title/ASP-NET-MVC-3-Framework-Zaawansowane-programowanie/">
+		<img border="0" src="http://i.digipedia.pl/aa/b/21/9788324648221thm.jpg" alt="ASP.NET MVC 3 Framework. Zaawansowane programowanie" />
+	</a>
+	<p><a href="/b/d/isbn/9788324648221/title/ASP-NET-MVC-3-Framework-Zaawansowane-programowanie/">ASP.NET MVC 3 Framework. Zaawansowane programowanie</a></p>
+			<p><span class="price_new">69.30&nbsp;zł</span>
+		&nbsp;&nbsp;<span class="price_old">99.00&nbsp;zł</span></p>
+	</div>	
+</div>
+
+
+
+
+<div style="clear:both;"></div>
+
+			<div id="ads_left">
+																											</div>
+		</div>
+		<div id="center">
+		
+		
+	<div class="box3" style="width:360px; float:left;margin-top: 8px;">
+		<div style="margin:7px;">
+		
+		<div id="google_translate_element"></div>
+		<script type="text/javascript">
+		function googleTranslateElementInit() {
+		new google.translate.TranslateElement({
+		pageLanguage: 'pl',
+		multilanguagePage: true,
+		layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+		}, 'google_translate_element');
+		}
+		</script>
+		<script type="text/javascript" src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+		
+		</div>
+	</div>
+
+
+	<div class="box3" style="width:360px; float:left;margin-top: 8px;">
+		<div style="margin:11px;">
+		<form id="sform" action="/search/index/" method="get" style="margin: 0px;" onsubmit="javascript:ssform2();return false;">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="cof" value="FORID:9" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<table cellspacing="0" cellpadding="0" border="0"><tr>
+		<td><input type="text" name="q" size="13" maxlength="50" value="szukaj" onfocus="if (this.value=='szukaj') this.value='';" onblur="if(this.value=='')this.value='szukaj'" /></td>
+		<td><select name="w"><option value="">wszędzie</option>
+			<option value="usenet" selected="selected">Usenet</option>
+			<option value="def">Słownik</option>
+			<option value="b">Księgarnia</option>
+			<option value="man">Podręcznik Linuksa</option>
+			<option value="php">Podręcznik PHP</option>
+			<option value="pgsql">Podręcznik PgSQL</option>
+			<option value="rfc">Dokumenty RFC</option>
+			</select>
+		</td>
+		<td><input type="submit" value="szukaj" /></td>
+		</tr></table>
+		</form>
+		</div>
+	</div>
+
+
+
+
+<div style="clear:both;"></div>
+		
+		
+				
+
+
+				
+				
+				
+				
+				
+				
+
+			<div style="width:468px;margin:10px auto;">
+			<script type="text/javascript" src="http://ads.adone.pl/getscript.fcgi?SID=818"></script>
+			</div>
+		
+
+
+			<div id="content" style="clear: both;">
+
+				
+				
+<script type="text/javascript">
+$().ready(function() {
+  $('#usenet_report_spam').jqm({ajax: '/usenet/reportspam/?url=/usenet/thread/18590/3777', trigger: 'a.usenet_report_spam_trigger'});
+});
+</script>
+
+
+<div class="jqmWindow" id="usenet_report_spam">Proszę czekać...</div>
+
+
+
+				
+		
+
+	
+		<div style="clear:both;"></div>
+	
+
+		<h2>aufs-util build problem</h2>
+
+
+        <h3>Grupa news <a href="/usenet/groups/like/gmane.*">gmane</a>.<a href="/usenet/groups/like/gmane.linux.*">linux</a>.<a href="/usenet/groups/like/gmane.linux.file-systems.*">file-systems</a>.<a href="/usenet/groups/like/gmane.linux.file-systems.aufs.*">aufs</a>.<a href="/usenet/groups/like/gmane.linux.file-systems.aufs.user">user</a></h3>
+        
+        
+	
+
+		<div class="usenet_thread" id="post3777">
+							<div class="usenet_thread_header">
+				<span class="usenet_thread_subject">aufs-util build problem</span>
+				<span class="usenet_thread_date">2012-03-05 00:53</span>
+			</div>
+			<pre class="usenet_thread_body">Sorry, this is bound to be an idiot error...
+
+I'm struggling to compile aufs-util for aufs3.  I need to build it on a
+machine running a much older kernel, so basically the new kernel source
+(3.2.10) is in /usr/src/linux and I'm trying to build against that (the
+new kernel src includes aufs patches in non modular form - kernel boots ok)
+
+What I did was checkout aufs-util.
+Git checkout aufs-3.0
+edit Makefile and add -I/usr/src/linux/include to CFLAGS (not CPPFLAGS
+as per the README)
+make
+
+I then get:
+
+<span class="usenet_thread_comment"># make</span>
+cc -I./libau -I/usr/src/linux/include -O -Wall -DMOUNT_CMD_PATH=\&quot;\&quot;
+ver.c   -o ver
+In file included from ver.c:19:0:
+/usr/src/linux/include/linux/aufs_type.h:179:27: error: expected ':',
+',', ';', '}' or '__attribute__' before '*' token
+make: *** [ver] Error 1
+
+compiler is gcc-4.5.3
+
+Any help on figuring out what I should have done please?
+
+Thanks
+
+Ed W
+</pre>
+				</div>
+	
+	
+	        <div style="float:left;width:340px;margin: 10px;">
+			<script type="text/javascript"><!--
+			google_ad_client = "ca-pub-0505033253648955";
+			/* usenet_inthread */
+			google_ad_slot = "5548348357";
+			google_ad_width = 336;
+			google_ad_height = 280;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+		</div>
+
+		<div class="box3" style="width:360px; float:right;">
+		<h4>Menu</h4>
+			<ul class="box3a">
+				<li><a href="/usenet/group/18590/#archive">Archiwum grupy dyskusyjnej</a></li>
+				<li><a href="http://www.usenet.pl/doc/news-pl-faq.htpl#usenet" target="_blank">Jak wysłać odpowiedź?</a></li>
+				<li><a href="http://www.usenet.pl/doc/news-pl-faq.htpl#usenet" target="_blank">Jak rozpocząć nowy wątek?</a></li>
+				<li><a href="/a/nota-prawna">Nota prawna</a></li>
+				<li><a href="/index/formail/title/kontakt/">Kontakt</a></li>
+				<li><a href="/index/formail/title/bug/">Zgłoszenie usunięcia danych osobowych</a></li>
+			</ul>
+		</div>
+		<div style="clear:both;"></div>
+		
+		
+		
+
+		<div class="usenet_thread" id="post3775">
+							<div class="usenet_thread_header">
+				<span class="usenet_thread_subject">Re: aufs-util build problem</span>
+				<span class="usenet_thread_date">2012-03-05 09:17</span>
+			</div>
+			<pre class="usenet_thread_body">Hi Ed,
+
+Ed W:
+&gt;<span class="usenet_thread_level_1">I'm struggling to compile aufs-util for aufs3.  I need to build it on a</span>
+&gt;<span class="usenet_thread_level_1">machine running a much older kernel, so basically the new kernel source</span>
+&gt;<span class="usenet_thread_level_1">(3.2.10) is in /usr/src/linux and I'm trying to build against that (the</span>
+&gt;<span class="usenet_thread_level_1">new kernel src includes aufs patches in non modular form - kernel boots ok)</span>
+:::
+&gt;<span class="usenet_thread_level_1"># make</span>
+&gt;<span class="usenet_thread_level_1">cc -I./libau -I/usr/src/linux/include -O -Wall -DMOUNT_CMD_PATH=\&quot;\&quot;</span>
+&gt;<span class="usenet_thread_level_1">ver.c   -o ver</span>
+&gt;<span class="usenet_thread_level_1">In file included from ver.c:19:0:</span>
+&gt;<span class="usenet_thread_level_1">/usr/src/linux/include/linux/aufs_type.h:179:27: error: expected ':',</span>
+
+I guess you (or your distribution) forgot to run &quot;make headers_install&quot;
+which modifies aufs_type.h and install it to the dir you spcified.
+
+
+J. R. Okajima
+</pre>
+				</div>
+	
+	
+		
+		
+
+		<div class="usenet_thread" id="post3782">
+							<div class="usenet_thread_header">
+				<span class="usenet_thread_subject">Re: aufs-util build problem</span>
+				<span class="usenet_thread_date">2012-03-05 12:52</span>
+			</div>
+			<pre class="usenet_thread_body">&gt;<span class="usenet_thread_level_1">Hi Ed,</span>
+&gt;<span class="usenet_thread_level_1"></span>
+&gt;<span class="usenet_thread_level_1">Ed W:</span>
+&gt;&gt;<span class="usenet_thread_level_2">I'm struggling to compile aufs-util for aufs3.  I need to build it on a</span>
+&gt;&gt;<span class="usenet_thread_level_2">machine running a much older kernel, so basically the new kernel source</span>
+&gt;&gt;<span class="usenet_thread_level_2">(3.2.10) is in /usr/src/linux and I'm trying to build against that (the</span>
+&gt;&gt;<span class="usenet_thread_level_2">new kernel src includes aufs patches in non modular form - kernel boots ok)</span>
+&gt;<span class="usenet_thread_level_1">	:::</span>
+&gt;&gt;<span class="usenet_thread_level_2"># make</span>
+&gt;&gt;<span class="usenet_thread_level_2">cc -I./libau -I/usr/src/linux/include -O -Wall -DMOUNT_CMD_PATH=\&quot;\&quot;</span>
+&gt;&gt;<span class="usenet_thread_level_2">ver.c   -o ver</span>
+&gt;&gt;<span class="usenet_thread_level_2">In file included from ver.c:19:0:</span>
+&gt;&gt;<span class="usenet_thread_level_2">/usr/src/linux/include/linux/aufs_type.h:179:27: error: expected ':',</span>
+&gt;<span class="usenet_thread_level_1">I guess you (or your distribution) forgot to run &quot;make headers_install&quot;</span>
+&gt;<span class="usenet_thread_level_1">which modifies aufs_type.h and install it to the dir you spcified.</span>
+&gt;<span class="usenet_thread_level_1"></span>
+&gt;<span class="usenet_thread_level_1"></span>
+
+Thanks - I was scared to run the make headers_install, had assumed it
+tampered with /usr/include.  Realised my mistake
+
+Everything working perfectly now, apologies for the noise (again)..
+
+Note, could I suggest for the docs to be updated to be clearer on:
+
+- aufs3.0 for kernel-3.0 and newer - it implies that 3.x is best (I
+remember this confusion surrounding the main aufs module also?
+- Example of the make command line in the form  (rather than the
+suggestion to edit the Makefile
+CPPFLAGS=&quot;-I /usr/src/linux/usr/include&quot; make
+- Urge people that make headers_install doesn't actually change the
+distro headers, only the ones in the kernel source tree
+
+Thanks for the wonderful aufs!
+
+Ed W
+
+
+
+
+</pre>
+				</div>
+	
+	
+		
+		
+
+		<div class="usenet_thread" id="post3781">
+							<div class="usenet_thread_header">
+				<span class="usenet_thread_subject">Re: aufs-util build problem</span>
+				<span class="usenet_thread_date">2012-03-05 16:35</span>
+			</div>
+			<pre class="usenet_thread_body">&gt;<span class="usenet_thread_level_1"></span>
+&gt;<span class="usenet_thread_level_1">- aufs3.0 for kernel-3.0 and newer - it implies that 3.x is best (I</span>
+&gt;<span class="usenet_thread_level_1">remember this confusion surrounding the main aufs module also?</span>
+&gt;<span class="usenet_thread_level_1">- Example of the make command line in the form  (rather than the</span>
+&gt;<span class="usenet_thread_level_1">suggestion to edit the Makefile</span>
+&gt;<span class="usenet_thread_level_1">     CPPFLAGS=&quot;-I /usr/src/linux/usr/include&quot; make</span>
+&gt;<span class="usenet_thread_level_1">- Urge people that make headers_install doesn't actually change the</span>
+&gt;<span class="usenet_thread_level_1">distro headers, only the ones in the kernel source tree</span>
+
+Thanks for your suggestion.
+Every aufs git trees contain the aufs README file, I'd update them such
+like this.
+About &quot;CPPFLAGS=&quot;-I /usr/src/linux/usr/include&quot; make&quot;, obviously the
+path name is not fixed and people think &quot;/usr/src/linux&quot; is obsoleted
+and uncommon today. So I wrote it as &quot;$LinuxSrc&quot; in README in aufs-util.
+
+(for aufs3-standalone.git and aufs3-linux.git)
+diff --git a/Documentation/filesystems/aufs/README b/Documentation/filesystems/aufs/README
+index 3098d03..2c10b7d 100644
+--- a/Documentation/filesystems/aufs/README
++++ b/Documentation/filesystems/aufs/README
+@@ -147,7 +147,7 @@ nearest lower number.
+
+For (an unreleased) example:
+If you are using &quot;linux-3.10&quot; and the &quot;aufs3.10&quot; branch
+-does not exit in aufs-util repository, then &quot;aufs3.9&quot;, &quot;aufs3.8&quot;
++does not exist in aufs-util repository, then &quot;aufs3.9&quot;, &quot;aufs3.8&quot;
+or something numerically smaller is the branch for your kernel.
+
+Also you can view all branches by
+@@ -179,7 +179,8 @@ There are several ways to build.
+=m or =y.
+- and build your kernel as usual.
+- install the built kernel.
+-- install the header files too by &quot;make headers_install&quot;.
++- install the header files too by &quot;make headers_install&quot; to the
++  directory where you specify. By default, it is $PWD/usr.
+- and reboot your system.
+
+2.
+@@ -201,7 +202,8 @@ There are several ways to build.
+./aufs.ko to /lib/modules/... and run depmod -a (or reboot simply).
++ run &quot;make headers_install&quot; to install the aufs header file (you can
+specify DESTDIR), or copty ./usr/include/linux/aufs_type.h to
+-    /usr/include/linux or wherever you like.
++    /usr/include/linux or wherever you like. By default, the target
++    directory is $PWD/usr.
+- no need to apply aufs3-kbuild.patch, nor copying source files to your
+kernel source tree.
+
+(for aufs-util.git)
+diff --git a/README b/README
+index fa311d9..aea7c20 100644
+--- a/README
++++ b/README
+@@ -21,6 +21,12 @@ but the &quot;aufs3.10&quot; branch doesn't exit in this repository, then
+Also you can view all branches by
+$ git branch -a
+
++Note: The 3.x-rcN branch is to be used with `rc' kernel versions ONLY.
++The minor version number, 'x' in '3.x', of aufs may not always
++follow the minor version number of the kernel.
++Because changes in the kernel that cause the use of a new
++minor version number do not always require changes to aufs-util.
++
+Makefile in this tree has some customizable make-variables.
+- CPPFLAGS
+specify the include path if necessary.
+@@ -30,7 +36,7 @@ Makefile in this tree has some customizable make-variables.
+Otherwise you need to do something like this sample.
++ run &quot;make headers_install&quot; in your kernel source tree, and
+$LinuxSrc/usr/include is created and header files are installed
+-    there.
++    there by default.
++ if you build aufs3 as module from aufs3-standalone.git, then
+$AufsStdalone/usr/include is created and header files are
+installed there.
+
+
+J. R. Okajima
+</pre>
+				</div>
+	
+	
+		
+		
+
+		<div class="usenet_thread" id="post3776">
+							<div class="usenet_thread_header">
+				<span class="usenet_thread_subject">AW: aufs-util build problem</span>
+				<span class="usenet_thread_date">2012-03-05 08:42</span>
+			</div>
+			<pre class="usenet_thread_body">This is an S/MIME signed message
+
+------364FC1DA3C2CD43930B6254E0FE0579E
+Content-class: urn:content-classes:message
+Content-Type: text/plain;
+charset=&quot;iso-8859-1&quot;
+Content-Transfer-Encoding: quoted-printable
+
+Hello
+
+&gt;<span class="usenet_thread_level_1">-----Ursprngliche Nachricht-----</span>
+&gt;<span class="usenet_thread_level_1">Gesendet: Montag, 5. Mrz 2012 00:53</span>
+&gt;<span class="usenet_thread_level_1">Betreff: aufs-util build problem</span>
+&gt;<span class="usenet_thread_level_1"></span>
+&gt;<span class="usenet_thread_level_1">Sorry, this is bound to be an idiot error...</span>
+&gt;<span class="usenet_thread_level_1"></span>
+&gt;<span class="usenet_thread_level_1">I'm struggling to compile aufs-util for aufs3.  I need to build it on a</span>
+&gt;<span class="usenet_thread_level_1">machine running a much older kernel, so basically the new kernel source</span>
+&gt;<span class="usenet_thread_level_1">(3.2.10) is in /usr/src/linux and I'm trying to build against that (the</span>
+&gt;<span class="usenet_thread_level_1">new kernel src includes aufs patches in non modular form - kernel boots</span>
+&gt;<span class="usenet_thread_level_1">ok)</span>
+&gt;<span class="usenet_thread_level_1"></span>
+&gt;<span class="usenet_thread_level_1">I then get:</span>
+&gt;<span class="usenet_thread_level_1"></span>
+&gt;<span class="usenet_thread_level_1"># make</span>
+&gt;<span class="usenet_thread_level_1">cc -I./libau -I/usr/src/linux/include -O -Wall -DMOUNT_CMD_PATH=\&quot;\&quot;</span>
+&gt;<span class="usenet_thread_level_1">ver.c   -o ver</span>
+&gt;<span class="usenet_thread_level_1">In file included from ver.c:19:0:</span>
+&gt;<span class="usenet_thread_level_1">/usr/src/linux/include/linux/aufs_type.h:179:27: error: expected ':',</span>
+&gt;<span class="usenet_thread_level_1">',', ';', '}' or '__attribute__' before '*' token</span>
+&gt;<span class="usenet_thread_level_1">make: *** [ver] Error 1</span>
+
+I had the same problem.
+
+I was able to build without problems with the following steps:
+
+cd /usr/src/linux
+make headers_install
+
+cd aufs-utils-src
+CPPFLAGS=&quot;-I /usr/src/linux/usr/include&quot; make
+^^^^^^
+
+Best regards
+Elmar
+
+------364FC1DA3C2CD43930B6254E0FE0579E
+Content-Type: application/x-pkcs7-signature; name=&quot;smime.p7s&quot;
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=&quot;smime.p7s&quot;
+
+MIIVAgYJKoZIhvcNAQcCoIIU8zCCFO8CAQExCzAJBgUrDgMCGgUAMAsGCSqGSIb3
+DQEHAaCCEoYwggZWMIIFPqADAgECAhAAvxx7gJuiO/5wfpYCbmAuMA0GCSqGSIb3
+DQEBBQUAMFUxCzAJBgNVBAYTAkNIMRUwEwYDVQQKEwxTd2lzc1NpZ24gQUcxLzAt
+BgNVBAMTJlN3aXNzU2lnbiBQZXJzb25hbCBTaWx2ZXIgQ0EgMjAwOCAtIEcyMB4X
+DTExMDcyNjA3MjczOVoXDTEyMDcyNjA3MjczOVowgY0xCzAJBgNVBAYTAkNIMSUw
+IwYDVQQKExxVbml0ZWQgU2VjdXJpdHkgUHJvdmlkZXJzIEFHMRkwFwYDVQQDExBF
+bG1hciBWb25sYW50aGVuMTwwOgYJKoZIhvcNAQkBFi1lbG1hci52b25sYW50aGVu
+QHVuaXRlZC1zZWN1cml0eS1wcm92aWRlcnMuY2gwggEiMA0GCSqGSIb3DQEBAQUA
+A4IBDwAwggEKAoIBAQC1K7Z1ygNAuLwaZGANzd+N2r82qTH9ojzwpIXOS4OQE5ad
+1YtWuHmc6fw8n6MdA6VqnD/EV4A3wR0o7RUwnXuubvWncojk84XdwHDl52GNXBPA
+nVM6G6S98ePnzIWXPytiugG3BjGMvz7QChVgbw3oSVc1zHe0P394kMym1+c6QNWr
+aXxVmlo/6PkWB0Ovyn6HApSTnCqITuxJDWoxP26vIkr/05NYr8wxEsOIHhgaGYT2
+Cg/9Okd6Afd2QDZNlJHd4YzwvjNUK038gFT7azU3dn8HePGTEiQTOjQDIboKKowz
+4GcMMZHTzS12Kv3Rr16UzcpV2VQkd8D4rMScRu/XAgMBAAGjggLnMIIC4zA4BgNV
+HREEMTAvgS1lbG1hci52b25sYW50aGVuQHVuaXRlZC1zZWN1cml0eS1wcm92aWRl
+cnMuY2gwDgYDVR0PAQH/BAQDAgSwMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB0GA1Ud
+DgQWBBTLhRvCALNX7rSn4Dhw2WRbnkdlSjAfBgNVHSMEGDAWgBTrNbFWbRVgWPTh
+Is0cRhyu0AQAZTCB/wYDVR0fBIH3MIH0MEegRaBDhkFodHRwOi8vY3JsLnN3aXNz
+c2lnbi5uZXQvRUIzNUIxNTY2RDE1NjA1OEY0RTEyMkNEMUM0NjFDQUVEMDA0MDA2
+NTCBqKCBpaCBooaBn2xkYXA6Ly9kaXJlY3Rvcnkuc3dpc3NzaWduLm5ldC9DTj1F
+QjM1QjE1NjZEMTU2MDU4RjRFMTIyQ0QxQzQ2MUNBRUQwMDQwMDY1JTJDTz1Td2lz
+c1NpZ24lMkNDPUNIP2NlcnRpZmljYXRlUmV2b2NhdGlvbkxpc3Q/YmFzZT9vYmpl
+Y3RDbGFzcz1jUkxEaXN0cmlidXRpb25Qb2ludDBkBgNVHSAEXTBbMFkGCWCFdAFZ
+AQMBBDBMMEoGCCsGAQUFBwIBFj5odHRwOi8vcmVwb3NpdG9yeS5zd2lzc3NpZ24u
+Y29tL1N3aXNzU2lnbi1TaWx2ZXItQ1AtQ1BTLVI0LnBkZjCB2QYIKwYBBQUHAQEE
+gcwwgckwZAYIKwYBBQUHMAKGWGh0dHA6Ly9zd2lzc3NpZ24ubmV0L2NnaS1iaW4v
+YXV0aG9yaXR5L2Rvd25sb2FkL0VCMzVCMTU2NkQxNTYwNThGNEUxMjJDRDFDNDYx
+Q0FFRDAwNDAwNjUwYQYIKwYBBQUHMAGGVWh0dHA6Ly9zaWx2ZXItcGVyc29uYWwt
+ZzIub2NzcC5zd2lzc3NpZ24ubmV0L0VCMzVCMTU2NkQxNTYwNThGNEUxMjJDRDFD
+NDYxQ0FFRDAwNDAwNjUwDQYJKoZIhvcNAQEFBQADggEBADVpMV0R18LHt418rYB3
+4zRvRqjuoZjycfySE0UaFFq1IJOdJ2VY+/iFDW4JCgNRyXOpVVMe5dc05bBoJAUO
+/EnFxq9JiITG49dOrK9qtP5y6zf8DWqyKs18IMEZZYU6wQwMSbOZW1r2aWx7mFNq
+h1xHcDPw0M0GXyDEax00qPb4WNgTNr+6yvMCcHLjjuxTqP9VmjZl/UBQmWiXxqIr
+I82A4EyIMfRw8GjKQV322Bdn8hDyI43DpZOuQcjll0qcMX9vWa+Wva9wau9TYLPM
+He159aGRs5ZObCaMsd0IHEo8kucxwBOZJIyJa6DNvClaYpUR0Myiu+9QzTrK16DF
+G5kwggZnMIIET6ADAgECAgkA4la3U5drdlgwDQYJKoZIhvcNAQEFBQAwRzELMAkG
+A1UEBhMCQ0gxFTATBgNVBAoTDFN3aXNzU2lnbiBBRzEhMB8GA1UEAxMYU3dpc3NT
+aWduIFNpbHZlciBDQSAtIEcyMB4XDTA4MDcwOTExMTEwOVoXDTIzMDcwOTExMTEw
+OVowVTELMAkGA1UEBhMCQ0gxFTATBgNVBAoTDFN3aXNzU2lnbiBBRzEvMC0GA1UE
+AxMmU3dpc3NTaWduIFBlcnNvbmFsIFNpbHZlciBDQSAyMDA4IC0gRzIwggEiMA0G
+CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQD381NeSW2MA+UnFyEYYKV2lD8VELgh
+QM82M6wqcpqPYcNr3npJCFg9gNg78J0dQRABv2sHVhqNsz2/Y7oxfuJyRhhoh9eF
+T6DJexOp0DnRidY1Z2h2wV+WCc3POgXRPwYFCtoW8kPypAcdoqyAdQGdoOj3NKe/
+tuY5aGZSRzkpTbSd6CqtFWG0ojHgEJHbHuRD8SveEME0y2yE7mIUJ0TYMfHfPCHM
+wKyQaNN0aMkXSo47CaexBWWNB6SQri563npEb7AC/nT/Gof1WOmmJfHMiCIn2Msx
+wS8oDHFyHvf7CE5uegWsIX8/Clpm+L/lFhT5G5vEn7ozDYaXFV2uoQaPAgMBAAGj
+ggJGMIICQjAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNV
+HQ4EFgQU6zWxVm0VYFj04SLNHEYcrtAEAGUwHwYDVR0jBBgwFoAUF6DNweRBtjpb
+O8tFnb0cwpj6hlgwgf8GA1UdHwSB9zCB9DBHoEWgQ4ZBaHR0cDovL2NybC5zd2lz
+c3NpZ24ubmV0LzE3QTBDREMxRTQ0MUI2M0E1QjNCQ0I0NTlEQkQxQ0MyOThGQTg2
+NTgwgaiggaWggaKGgZ9sZGFwOi8vZGlyZWN0b3J5LnN3aXNzc2lnbi5uZXQvQ049
+MTdBMENEQzFFNDQxQjYzQTVCM0JDQjQ1OURCRDFDQzI5OEZBODY1OCUyQ089U3dp
+c3NTaWduJTJDQz1DSD9jZXJ0aWZpY2F0ZVJldm9jYXRpb25MaXN0P2Jhc2U/b2Jq
+ZWN0Q2xhc3M9Y1JMRGlzdHJpYnV0aW9uUG9pbnQwZAYDVR0gBF0wWzBZBglghXQB
+WQEDAQMwTDBKBggrBgEFBQcCARY+aHR0cDovL3JlcG9zaXRvcnkuc3dpc3NzaWdu
+LmNvbS9Td2lzc1NpZ24tU2lsdmVyLUNQLUNQUy1SMy5wZGYwdAYIKwYBBQUHAQEE
+aDBmMGQGCCsGAQUFBzAChlhodHRwOi8vc3dpc3NzaWduLm5ldC9jZ2ktYmluL2F1
+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
+m9kUmS0y
+
+------364FC1DA3C2CD43930B6254E0FE0579E--</pre>
+				</div>
+	
+	
+		
+		
+
+
+
+		<table class="usenet_post_list"><tbody>
+			<tr class="odd">
+							<td class="subject" style="padding-left:10px !important"><a href="#post3777">aufs-util build problem</a></td>
+				<td class="date">2012-03-05 00:53</td>
+					</tr>
+
+				<tr class="even">
+							<td class="subject" style="padding-left:20px !important"><a href="#post3775">Re: aufs-util build problem</a></td>
+				<td class="date">2012-03-05 09:17</td>
+					</tr>
+
+				<tr class="odd">
+							<td class="subject" style="padding-left:30px !important"><a href="#post3782">Re: aufs-util build problem</a></td>
+				<td class="date">2012-03-05 12:52</td>
+					</tr>
+
+				<tr class="even">
+							<td class="subject" style="padding-left:40px !important"><a href="#post3781">Re: aufs-util build problem</a></td>
+				<td class="date">2012-03-05 16:35</td>
+					</tr>
+
+				<tr class="odd">
+							<td class="subject" style="padding-left:20px !important"><a href="#post3776">AW: aufs-util build problem</a></td>
+				<td class="date">2012-03-05 08:42</td>
+					</tr>
+
+		</tbody></table>
+	
+
+
+				
+<div style="clear:both;"></div>
+
+
+
+<h3>Książki warte zainteresowania</h3>
+
+<div class="sc_menu">
+	<ul class="sc_menu">
+
+	<li><a href="/b/d/isbn/9788373613805/title/Excel-2003-PL-Biblia/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/05/9788373613805thm.jpg" alt="Excel 2003 PL. Biblia" /></a></li>
+
+
+	<li><a href="/b/d/isbn/9788373619838/title/Photoshop-Efekty-specjalne/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/38/9788373619838thm.jpg" alt="Photoshop. Efekty specjalne" /></a></li>
+
+
+	<li><a href="/b/d/isbn/9788373619586/title/Jezyk-C-Szkola-programowania-Wydanie-V/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/86/9788373619586thm.jpg" alt="Język C++. Szkoła programowania. Wydanie V" /></a></li>
+
+
+	<li><a href="/b/d/isbn/9788373611016/title/Algorytmy-struktury-danych-i-techniki-programowania-Wydanie/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/16/9788373611016thm.jpg" alt="Algorytmy, struktury danych i techniki programowania. Wydanie III" /></a></li>
+
+
+	<li><a href="/b/d/isbn/9788373617841/title/PHP-i-MySQL-Tworzenie-stron-WWW-Vademecum-profesjonalisty/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/41/9788373617841thm.jpg" alt="PHP i MySQL. Tworzenie stron WWW.  Vademecum profesjonalisty. Wydanie trzecie" /></a></li>
+
+
+	<li><a href="/b/d/isbn/9788371977091/title/Thinking-in-C-Edycja-polska/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/91/9788371977091thm.jpg" alt="Thinking in C++. Edycja polska" /></a></li>
+
+
+	<li><a href="/b/d/isbn/9788324603886/title/122-sposoby-na-OpenOffice-ux-pl-2-0/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/86/9788324603886thm.jpg" alt="122 sposoby na OpenOffice.ux.pl 2.0" /></a></li>
+
+
+	<li><a href="/b/d/isbn/9788324607013/title/100-sposobow-na-Ubuntu/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/13/9788324607013thm.jpg" alt="100 sposobów na Ubuntu" /></a></li>
+
+
+	<li><a href="/b/d/isbn/9788371976797/title/AutoCAD-Konstrukcje-budowlane/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/97/9788371976797thm.jpg" alt="AutoCAD. Konstrukcje budowlane" /></a></li>
+
+
+	<li><a href="/b/d/isbn/9788324600014/title/Po-prostu-Nero-7/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/14/9788324600014thm.jpg" alt="Po prostu Nero 7" /></a></li>
+
+
+	<li><a href="/b/d/isbn/9788373615175/title/101-zabezpieczen-przed-atakami-w-sieci-komputerowej/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/75/9788373615175thm.jpg" alt="101 zabezpieczeń przed atakami w sieci komputerowej" /></a></li>
+
+
+	<li><a href="/b/d/isbn/9788324602131/title/C-Programowanie/"><img class="b_box_img" src="http://i.digipedia.pl/aa/b/31/9788324602131thm.jpg" alt="C#. Programowanie" /></a></li>
+
+	</ul>
+
+</div>
+			</div>
+
+			<div id="ads_bottom">
+																						</div>
+
+		
+
+		</div>
+	    </div>
+	<div id="footer">
+				<span style="color:#516E97;font-size: 140%;">■</span> <a href="/a/nota-prawna">Nota prawna</a>
+				<span style="color:#516E97;font-size: 140%;">■</span> <a href="/a/nota-prawna#termsofuse">Warunki korzystania z serwisu</a>
+				<span style="color:#516E97;font-size: 140%;">■</span> <a href="/index/formail/title/kontakt/">Kontakt</a>
+				<span style="color:#516E97;font-size: 140%;">■</span> <a href="/index/formail/title/bug/">Zgłoszenie błędu</a>
+				<span style="color:#516E97;font-size: 140%;">■</span> <a href="/index/formail/title/piracy/">Zgłoszenie piractwa</a>
+				<span style="color:#516E97;font-size: 140%;">■</span>  
+
+
+				<div style="width:150px;float:right;margin-top:7px;">
+					<a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;pubid=xa-4f5bb625549bba82"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a>
+					<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4f5bb625549bba82"></script>
+				</div>
+
+
+			
+	</div>
+</div>
+
+
+
+
+
+
+
+
+</body>
+</html>
